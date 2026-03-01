@@ -19,7 +19,7 @@ export default function Hero() {
     };
     return (
 
-        <section className="relative w-full bg-[#F8F8FD] min-h-[auto] lg:min-h-[716px]">
+        <section className="relative w-full bg-[#F8F8FD] min-h-auto lg:min-h-[716px]">
 
             {/* ── Background pattern: right 860px, behind everything ── */}
             <div
