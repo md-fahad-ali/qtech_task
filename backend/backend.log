@@ -1,0 +1,7 @@
+
+> backend@1.0.0 dev /Users/macm1/Desktop/qtech_task/backend
+> tsx src/server.ts
+
+[dotenv@17.3.1] injecting env (2) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
+Error connecting to MongoDB: bad auth : authentication failed
+ ELIFECYCLE  Command failed with exit code 1.
