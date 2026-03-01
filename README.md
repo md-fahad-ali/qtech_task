@@ -6,7 +6,7 @@ QuickHire is a modern, full-stack job board application built with Next.js, Expr
 
 This is a monorepo setup consisting of two main parts:
 
-- `/qtech` - The Frontend (Next.js App Router, Tailwind CSS, TypeScript).
+- `/frontend` - The Frontend (Next.js App Router, Tailwind CSS, TypeScript).
 - `/backend` - The Backend API (Node.js, Express, MongoDB, TypeScript).
 
 ## Features
