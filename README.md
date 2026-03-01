@@ -92,3 +92,4 @@ The backend exposes the following RESTful API endpoints:
 - `GET /api/applications` - Get all submitted applications (Admin only)
 - `POST /api/applications` - Submit a new job application
 # qtech_task
+# qtech_task
