@@ -66,29 +66,35 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#202430] px-6 py-16 md:px-8">
+    <footer className="bg-[#202430] px-6 py-[64px] md:px-[60px]">
       <div className="mx-auto max-w-[1192px]">
-        <div className="grid gap-12 lg:grid-cols-4">
-          {/* Logo and tagline */}
-          <div className="lg:col-span-1">
-            <div className="mb-4">
+        {/* Top Section */}
+        <div className="flex flex-col gap-12 lg:flex-row lg:justify-between lg:gap-8">
+
+          {/* Logo and Tagline (Left Side) */}
+          <div className="lg:w-[350px]">
+            <div className="mb-6">
               <Logo lightText />
             </div>
-            <p className="mt-6 text-base leading-relaxed text-[#D6DDEB]">
-              Great platform for the job seeker that passionate about startups. Find your dream job easier.
+            <p className="text-[16px] leading-[25.6px] text-[#D6DDEB]">
+              Great platform for the job seeker that
+              passionate about startups. Find your dream job
+              easier.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 lg:col-span-2 lg:gap-12">
+          {/* Links and Newsletter (Right Side) */}
+          <div className="flex flex-col gap-12 sm:flex-row sm:gap-[60px] lg:gap-[80px]">
+
             {/* About links */}
-            <div>
-              <h3 className="text-lg font-semibold text-white">About</h3>
-              <ul className="mt-6 space-y-4">
+            <div className="flex flex-col">
+              <h3 className="text-[18px] font-semibold leading-[28.8px] text-white tracking-[0.01em]">About</h3>
+              <ul className="mt-6 flex flex-col gap-[20px]">
                 {footerLinks.about.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-base text-[#D6DDEB] transition-colors hover:text-white"
+                      className="text-[16px] leading-[25.6px] text-[#D6DDEB] transition-colors hover:text-white"
                     >
                       {link.label}
                     </a>
@@ -98,14 +104,14 @@ export default function Footer() {
             </div>
 
             {/* Resources links */}
-            <div>
-              <h3 className="text-lg font-semibold text-white">Resources</h3>
-              <ul className="mt-6 space-y-4">
+            <div className="flex flex-col">
+              <h3 className="text-[18px] font-semibold leading-[28.8px] text-white tracking-[0.01em]">Resources</h3>
+              <ul className="mt-6 flex flex-col gap-[20px]">
                 {footerLinks.resources.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-base text-[#D6DDEB] transition-colors hover:text-white"
+                      className="text-[16px] leading-[25.6px] text-[#D6DDEB] transition-colors hover:text-white"
                     >
                       {link.label}
                     </a>
@@ -113,42 +119,46 @@ export default function Footer() {
                 ))}
               </ul>
             </div>
-          </div>
 
-          {/* Newsletter */}
-          <div className="lg:col-span-1">
-            <h3 className="text-lg font-semibold text-white">Get job notifications</h3>
-            <p className="mt-6 text-base leading-relaxed text-[#D6DDEB]">
-              The latest job news, articles, sent to your inbox weekly.
-            </p>
-            <div className="mt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-stretch sm:gap-0">
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="w-full bg-white px-4 py-3 text-base text-gray-900 placeholder-gray-500 focus:outline-none sm:flex-1"
-              />
-              <button className="bg-[#4640DE] px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-indigo-700">
-                Subscribe
-              </button>
+            {/* Newsletter */}
+            <div className="flex flex-col lg:max-w-[320px]">
+              <h3 className="text-[18px] font-semibold leading-[28.8px] text-white tracking-[0.01em]">Get job notifications</h3>
+              <p className="mt-[20px] text-[16px] leading-[25.6px] text-[#D6DDEB]">
+                The latest job news, articles, sent to<br className="hidden lg:block" /> your inbox weekly.
+              </p>
+              <div className="mt-[32px] flex flex-col gap-4 sm:flex-row sm:h-[50px] sm:gap-0 w-full items-stretch">
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="w-full h-[50px] sm:h-auto bg-white px-4 py-3 text-[16px] leading-[25.6px] text-[#515B6F] placeholder:text-[#A8ADB7] focus:outline-none"
+                />
+                <button className="bg-[#4640DE] self-start sm:self-auto h-[50px] sm:h-auto px-[28px] text-[16px] font-bold leading-[25.6px] text-white transition-colors hover:bg-indigo-700 whitespace-nowrap">
+                  Subscribe
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-16 flex flex-col items-center justify-center gap-6 border-t border-gray-800 pb-8 pt-8 sm:flex-row sm:justify-between">
-          <p className="text-base text-[#D6DDEB]">
+        <div className="mt-[64px] flex flex-col items-center justify-between gap-6 border-t border-[#FFFFFF33] pt-[32px] sm:flex-row">
+          <p className="text-[16px] font-medium leading-[25.6px] text-[#D6DDEB] text-center sm:text-left">
             2021 @ QuickHire. All rights reserved.
           </p>
 
           {/* Social icons */}
-          <div className="flex gap-4">
+          <div className="flex gap-[16px]">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
                 href={social.href}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-white transition-colors hover:bg-gray-700"
+                className="flex h-[32px] w-[32px] items-center justify-center rounded-full bg-[#FFFFFF1A] text-white transition-colors hover:bg-white hover:text-[#202430]"
               >
-                {social.icon}
+                {/* Adjusting SVG size properly to match the 32x32 container better */}
+                <div className="h-4 w-4 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full">
+                  {social.icon}
+                </div>
               </a>
             ))}
           </div>

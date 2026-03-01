@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { clashDisplay, epilogue, geistMono } from "@/lib/fonts";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "QuickHire - Find Your Dream Job",
@@ -19,9 +17,7 @@ export default function RootLayout({
       <body
         className={`${clashDisplay.variable} ${epilogue.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

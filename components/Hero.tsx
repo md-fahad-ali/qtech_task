@@ -1,7 +1,22 @@
+"use client";
+
+import { useState } from 'react';
 import Image from 'next/image';
 import { clashDisplay } from '@/lib/fonts';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
+    const [query, setQuery] = useState('');
+    const [location, setLocation] = useState('');
+    const router = useRouter();
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        const searchParams = new URLSearchParams();
+        if (query) searchParams.set('q', query);
+        if (location) searchParams.set('location', location);
+        router.push(`/jobs?${searchParams.toString()}`);
+    };
     return (
 
         <section className="relative w-full bg-[#F8F8FD] min-h-[auto] lg:min-h-[716px]">
@@ -70,58 +85,52 @@ export default function Hero() {
                     </p>
 
                     {/* Search block */}
-                    <div className="flex flex-col gap-4">
+                    <form onSubmit={handleSearch} className="flex flex-col gap-4">
 
                         {/* Search Bar */}
                         <div
-                            className="flex flex-col lg:flex-row items-center w-full bg-white z-20 shadow-lg lg:h-[89px] p-4 lg:p-4 gap-4 lg:gap-0"
+                            className="flex flex-col lg:flex-row items-center w-full bg-white z-20 shadow-lg p-4 lg:p-0 gap-4 lg:gap-0"
                             style={{
                                 boxShadow: '0px 79px 128px rgba(192,192,192,0.09), 0px 28.84px 46.72px rgba(192,192,192,0.0599), 0px 14px 22.68px rgba(192,192,192,0.0476), 0px 6.86px 11.12px rgba(192,192,192,0.0381), 0px 2.71px 4.4px rgba(192,192,192,0.027)'
                             }}
                         >
                             {/* Job Title input */}
-                            <div className="flex flex-row items-center flex-1 self-stretch w-full lg:w-auto px-2 lg:px-4 gap-4">
+                            <div className="flex flex-row items-center flex-1 self-stretch w-full px-4 gap-4 py-4 lg:py-0 border-b lg:border-b-0 lg:border-r border-[#D6DDEB]">
                                 <svg className="shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <circle cx="11.7666" cy="11.7666" r="8.98856" stroke="#25324B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <path d="M18.0183 18.4851L21.5423 22" stroke="#25324B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
-                                <div className="flex flex-col justify-between items-start self-stretch flex-1 lg:pt-[20px] gap-2 lg:gap-[10px]">
-                                    <input
-                                        type="text"
-                                        placeholder="Job title or keyword"
-                                        className="w-full bg-transparent border-none outline-none leading-[160%] placeholder:text-[#7C8493] text-[#25324B] font-epilogue text-base lg:text-[16px] lg:font-normal"
-                                    />
-                                    <div className="w-full h-[1px] bg-[#D6DDEB] lg:block hidden" />
-                                </div>
+                                <input
+                                    type="text"
+                                    name="q"
+                                    value={query}
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    placeholder="Job title or keyword"
+                                    className="w-full bg-transparent border-none outline-none text-[#25324B] font-epilogue text-base lg:text-[16px] placeholder:text-[#7C8493]"
+                                />
                             </div>
 
-                            <div className="w-full h-[1px] bg-[#D6DDEB] lg:hidden" />
-
                             {/* Location select */}
-                            <div className="flex flex-row items-center flex-1 self-stretch w-full lg:w-auto px-2 lg:px-[24px] lg:pl-2 gap-4 lg:gap-[16px]">
+                            <div className="flex flex-row items-center flex-1 self-stretch w-full px-4 gap-4 py-4 lg:py-0 lg:pr-4">
                                 <svg className="shrink-0" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M14.5 10.5005C14.5 9.11924 13.3808 8 12.0005 8C10.6192 8 9.5 9.11924 9.5 10.5005C9.5 11.8808 10.6192 13 12.0005 13C13.3808 13 14.5 11.8808 14.5 10.5005Z" stroke="#25324B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     <path fillRule="evenodd" clipRule="evenodd" d="M11.9995 21C10.801 21 4.5 15.8984 4.5 10.5633C4.5 6.38664 7.8571 3 11.9995 3C16.1419 3 19.5 6.38664 19.5 10.5633C19.5 15.8984 13.198 21 11.9995 21Z" stroke="#25324B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
-                                <div className="flex flex-col justify-between items-start self-stretch flex-1 lg:pt-[20px] gap-2 lg:gap-[10px]">
-                                    <div className="flex flex-row justify-between items-center w-full lg:h-[26px]">
-                                        <select
-                                            className="bg-transparent border-none outline-none appearance-none cursor-pointer text-[#25324B] leading-[160%] flex-1 font-epilogue text-base lg:text-[16px] lg:font-normal opacity-90"
-                                        >
-                                            <option>Florence, Italy</option>
-                                            <option>Milan, Italy</option>
-                                            <option>Remote</option>
-                                        </select>
-                                        <svg className="shrink-0" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12.6666 5.66669L7.99998 10.3334L3.33331 5.66669" stroke="#7C8493" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </div>
-                                    <div className="w-full h-[1px] bg-[#D6DDEB] lg:block hidden" />
-                                </div>
+                                <select
+                                    name="location"
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    className="w-full bg-transparent border-none outline-none appearance-none cursor-pointer text-[#25324B] font-epilogue text-base lg:text-[16px]"
+                                >
+                                    <option value="">Any Location</option>
+                                    <option value="Florence, Italy">Florence, Italy</option>
+                                    <option value="Milan, Italy">Milan, Italy</option>
+                                    <option value="Remote">Remote</option>
+                                </select>
                             </div>
 
                             {/* Search Button */}
-                            <button className="bg-[#4640DE] hover:bg-[#3730c4] transition-colors text-white shrink-0 flex items-center justify-center font-epilogue text-lg font-bold w-full lg:w-[209px] h-[57px] py-[14px] lg:px-[27px]">
+                            <button type="submit" className="bg-[#4640DE] hover:bg-[#3730c4] transition-colors text-white shrink-0 flex items-center justify-center font-epilogue text-lg font-bold w-full lg:w-[209px] lg:h-[89px] py-[14px]">
                                 Search my job
                             </button>
                         </div>
@@ -130,7 +139,7 @@ export default function Hero() {
                         <div className="font-epilogue text-[#202430] opacity-70 leading-[160%] text-sm lg:text-base mt-2 lg:mt-0">
                             Popular : <span className="font-semibold text-[#202430]">UI Designer, UX Researcher, Android, Admin</span>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 

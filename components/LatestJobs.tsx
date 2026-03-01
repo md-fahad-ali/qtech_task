@@ -1,21 +1,35 @@
-import { LATEST_JOBS } from '@/lib/constants';
-
 import Image from 'next/image';
-
-const companyLogos: Record<string, React.ReactNode> = {
-  nomad: <Image src="/Landing Page/Latest Job Open/nomad.svg" alt="Nomad" width={40} height={40} className="rounded-lg" />,
-  dropbox: <Image src="/Landing Page/Latest Job Open/dropbox.svg" alt="Dropbox" width={40} height={40} className="rounded-lg" />,
-  terraform: <Image src="/Landing Page/Latest Job Open/terraform.svg" alt="Terraform" width={40} height={40} className="rounded-lg" />,
-  packer: <Image src="/Landing Page/Latest Job Open/packer.svg" alt="Packer" width={40} height={40} className="rounded-lg" />,
-  netlify: <Image src="/Landing Page/Latest Job Open/netlify.svg" alt="Netlify" width={40} height={40} className="rounded-lg" />,
-  maze: <Image src="/Landing Page/Latest Job Open/maze.svg" alt="Maze" width={40} height={40} className="rounded-lg" />,
-  udacity: <Image src="/Landing Page/Latest Job Open/udacity.svg" alt="Udacity" width={40} height={40} className="rounded-lg" />,
-  webflow: <Image src="/Landing Page/Latest Job Open/webflow.svg" alt="Webflow" width={40} height={40} className="rounded-lg" />,
-};
-
+import Link from 'next/link';
 import { clashDisplay } from '@/lib/fonts';
 
-export default function LatestJobs() {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+
+interface Job {
+  _id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: string;
+  tags: string[];
+  logo: string;
+  section: string;
+}
+
+async function getLatestJobs(): Promise<Job[]> {
+  try {
+    const res = await fetch(`${API_URL}/api/jobs?section=latest&limit=8`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
+}
+
+export default async function LatestJobs() {
+  const jobs = await getLatestJobs();
+
   return (
     <section className="relative overflow-hidden bg-[#F8F8FD] py-16">
       {/* Background patterns */}
@@ -27,11 +41,11 @@ export default function LatestJobs() {
         </svg>
       </div>
 
-      {/* Top-left triangle pattern using CSS polygon */}
+      {/* Top-left triangle pattern */}
       <div
         className="absolute left-0 top-0 z-0 h-[400px] w-[400px] pointer-events-none bg-white"
         style={{ clipPath: 'polygon(0px 0px, 33% 0px, 0px 20%)' }}
-      ></div>
+      />
 
       <div className="relative z-10 mx-auto max-w-[1192px] px-4 md:px-8 xl:px-0">
         <div className="mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -39,59 +53,74 @@ export default function LatestJobs() {
             Latest{' '}
             <span className="text-[#4640DE]">jobs open</span>
           </h2>
-          <a
+          <Link
             href="/jobs"
             className="text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-700"
           >
             Show all jobs →
-          </a>
+          </Link>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
-          {LATEST_JOBS.map((job) => (
-            <div
-              key={job.id}
-              className="group flex flex-col sm:flex-row cursor-pointer items-start gap-4 rounded-xl bg-white p-6 transition-all hover:shadow-lg border border-gray-100"
-            >
-              <div className="shrink-0">
-                {companyLogos[job.logo] || (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 text-gray-600 font-bold">
-                    {job.company[0]}
+        {jobs.length === 0 ? (
+          <p className="text-[#7C8493]">No latest jobs at this time.</p>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
+            {jobs.map((job) => (
+              <div
+                key={job._id}
+                className="group flex flex-col sm:flex-row cursor-pointer items-start gap-4 rounded-xl bg-white p-6 transition-all hover:shadow-lg border border-gray-100"
+              >
+                <div className="shrink-0">
+                  {job.logo ? (
+                    <Image
+                      src={job.logo.startsWith('http') ? job.logo : `${API_URL}${job.logo}`}
+                      alt={job.company}
+                      width={40}
+                      height={40}
+                      className="rounded-lg"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200 text-gray-600 font-bold">
+                      {job.company[0]}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <Link href={`/jobs/${job._id}`}>
+                    <h3 className="text-lg font-semibold text-[#25324B] group-hover:text-indigo-600">
+                      {job.title}
+                    </h3>
+                  </Link>
+                  <p className="mt-1 text-sm text-[#515B6F]">
+                    {job.company} • {job.location}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="rounded-full border border-[rgba(255,255,255,0.01)] bg-[#56CDAD]/10 px-3 py-1 text-xs font-semibold text-[#56CDAD]">
+                      {job.type}
+                    </span>
+                    {job.tags.map((tag) => {
+                      let tagStyle = 'border-gray-200 text-gray-600';
+                      if (tag === 'Marketing') tagStyle = 'border-[#FFB836] text-[#FFB836]';
+                      if (tag === 'Design') tagStyle = 'border-[#4640DE] text-[#4640DE]';
+
+                      return (
+                        <span
+                          key={tag}
+                          className={`rounded-full border px-3 py-1 text-xs font-semibold ${tagStyle}`}
+                        >
+                          {tag}
+                        </span>
+                      );
+                    })}
                   </div>
-                )}
-              </div>
-
-              <div>
-                <h3 className="text-lg font-semibold text-[#25324B] group-hover:text-indigo-600">
-                  {job.title}
-                </h3>
-                <p className="mt-1 text-sm text-[#515B6F]">
-                  {job.company} • {job.location}
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-[rgba(255,255,255,0.01)] bg-[#56CDAD]/10 px-3 py-1 text-xs font-semibold text-[#56CDAD]">
-                    {job.type}
-                  </span>
-                  {job.tags.map((tag) => {
-                    let tagStyle = 'border-gray-200 text-gray-600';
-                    if (tag === 'Marketing') tagStyle = 'border-[#FFB836] text-[#FFB836]';
-                    if (tag === 'Design') tagStyle = 'border-[#4640DE] text-[#4640DE]';
-
-                    return (
-                      <span
-                        key={tag}
-                        className={`rounded-full border px-3 py-1 text-xs font-semibold ${tagStyle}`}
-                      >
-                        {tag}
-                      </span>
-                    );
-                  })}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
