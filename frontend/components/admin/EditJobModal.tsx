@@ -112,7 +112,7 @@ export default function EditJobModal({ job, onClose, onSuccess }: EditJobModalPr
                         </div>
                     ))}
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-[#515B6F] mb-1">Job Type</label>
                             <select
